@@ -1,7 +1,7 @@
 import React from "react";
 import { TestConfig } from "../../api/types/test-config";
 import styles from "./location-tests.scss";
-import type { Location as DiagonisticCenter } from "@openmrs/esm-api";
+import type { Location as DiagonisticCenter } from "@openmrs/esm-framework";
 import { Button, Checkbox } from "@carbon/react";
 import { TrashCan } from "@carbon/react/icons";
 

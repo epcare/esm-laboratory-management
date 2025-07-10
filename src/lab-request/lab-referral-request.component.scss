@@ -1,6 +1,7 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use '@carbon/styles/scss/colors';
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
 
 .referralInfo{
     max-width: 25rem;
@@ -8,11 +9,11 @@
 
 .locationLabRequest{
     padding: 0.5rem;
-    border: 1px solid $ui-03;
-    background-color: $ui-01;
+    border: 1px solid vars.$ui-03;
+    background-color: vars.$ui-01;
 
     select, .selectedTestAltRow{
-        background-color: $ui-02 !important;
+        background-color: vars.$ui-02 !important;
     }
 }
 .labRequests{
@@ -55,14 +56,14 @@
 }
 
 .selectedTest:last-child{
-    border-bottom: 1px solid $ui-03;
+    border-bottom: 1px solid vars.$ui-03;
 }
 
 .selectedTest{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid $ui-03;
+    border-top: 1px solid vars.$ui-03;
     padding-top: 0.5rem;
     padding-bottom: 0.35rem;
     padding-left: 0.25rem;
@@ -82,7 +83,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-    }    
+    }
 }
 
 .section{
@@ -96,11 +97,11 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    
+
 }
 
 .form{
-    background-color: $ui-01;
+    background-color: vars.$ui-01;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -111,17 +112,17 @@
 }
 
 .modalBody {
-    overflow-y: visible;    
+    overflow-y: visible;
     padding-top: 1rem;
     margin-bottom: 0.85rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    
+
     :global(.cds--text-input), :global(.cds--list-box input[role=combobox]), :global(.cds--list-box input[type=text]),
     :global(.cds--select-input), :global(.cds--text-area), :global(.cds--number > div.cds--number__input-wrapper > input[type=number]){
-        background-color: $ui-02;    
+        background-color: vars.$ui-02;
     }
 }
 
@@ -136,12 +137,12 @@
 
 .multiSelectedCombo {
     :global(.cds--list-box) {
-        background-color: $ui-02;                
+        background-color: vars.$ui-02;
     }
 }
 
 .borderBottom{
-    border-bottom: .063rem solid $ui-03;
+    border-bottom: .063rem solid vars.$ui-03;
 }
 
 .horizontalRadioButtons{
@@ -158,32 +159,32 @@
     padding-bottom: 0;
 }
 
-.inputWhite { 
+.inputWhite {
     input, textarea{
-        background-color: $ui-02;
+        background-color: vars.$ui-02;
     }
 }
 
 .errorText {
-    color: $danger;
+    color: colors.$red-60;
 }
 
 .tabs {
-    grid-column: 'span 2';
+    grid-column: span 2;
   }
-  
+
   .tablist {
     padding: 0 spacing.$spacing-05;
   }
-  
+
   .tab {
     min-width: 8.875rem;
-  
+
     &:active,
     &:focus {
       outline: 2px solid var(--brand-03) !important;
     }
-  
+
     &[aria-selected='true'] {
       box-shadow: inset 0 2px 0 0 var(--brand-03) !important;
     }
@@ -192,14 +193,14 @@
   .tabPanel{
     padding-top: 0;
   }
-  
+
   .hiddenTabsContent,
   .tabs .hiddenTabsContent {
     display: none;
   }
-  
+
   .listsTableContainer {
     padding: spacing.$spacing-05;
-    background-color: $ui-01;
+    background-color: vars.$ui-01;
     height: calc(100vh - 12rem);
   }

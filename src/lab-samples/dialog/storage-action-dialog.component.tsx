@@ -155,7 +155,7 @@ const StorageActionDialog: React.FC<StorageActionDialogProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };
@@ -203,8 +203,8 @@ const StorageActionDialog: React.FC<StorageActionDialogProps> = ({
                             }${sample.referralFromFacilityName}`
                           : `${sample.patientIdentifier}-${
                               sample.patientFamilyName ?? ""
-                            } 
-          ${sample.patientGivenName ?? ""} 
+                            }
+          ${sample.patientGivenName ?? ""}
           ${sample.patientMiddleName ?? ""}`}
                       </h6>
                     </div>
@@ -345,6 +345,7 @@ const StorageActionDialog: React.FC<StorageActionDialogProps> = ({
                   <div className={styles.sectionField}>
                     <div className={styles.sectionRow}>
                       <ControlledNumberInput
+                        id={`id-thawCycles`}
                         name="thawCycles"
                         control={control}
                         controllerName="thawCycles"
@@ -368,6 +369,7 @@ const StorageActionDialog: React.FC<StorageActionDialogProps> = ({
                   <div className={styles.sectionField}>
                     <div className={styles.sectionRow}>
                       <ControlledNumberInput
+                        id={`id-volume-2`}
                         type=""
                         name="volume"
                         control={control}
@@ -423,6 +425,7 @@ const StorageActionDialog: React.FC<StorageActionDialogProps> = ({
                   responsibilityPersonUuid === otherUser.uuid && (
                     <div style={{ paddingTop: "0.5rem" }}>
                       <ControlledTextInput
+                        id={`id-responsiblePersonOther`}
                         name="responsiblePersonOther"
                         control={control}
                         controllerName="responsiblePersonOther"

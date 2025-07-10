@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { RadioButtonGroupProps } from "@carbon/react/lib/components/RadioButtonGroup/RadioButtonGroup";
 import { Control, Controller, FieldValues } from "react-hook-form";
 import { RadioButtonGroup, RadioButton } from "@carbon/react";
@@ -13,7 +13,11 @@ interface ControlledRadioButtonGroupProps<T> extends RadioButtonGroupProps {
   legendText?: string;
   invalid?: boolean;
   invalidText?: string;
-  onChange: (selection: boolean, name?: string, event?: unknown) => void;
+  onChange: (
+    selection: boolean | string | number,
+    name?: string,
+    event?: ChangeEvent<HTMLInputElement>
+  ) => void;
 }
 
 const ControlledRadioButtonGroup = <T,>(
@@ -26,7 +30,11 @@ const ControlledRadioButtonGroup = <T,>(
       render={({ field: { onChange, value, ref } }) => (
         <RadioButtonGroup
           {...props}
-          onChange={(selection: boolean, name: string, event: unknown) => {
+          onChange={(
+            selection: boolean,
+            name: string,
+            event: ChangeEvent<HTMLInputElement>
+          ) => {
             onChange(selection, name, event);
 
             // Fire prop change

@@ -168,6 +168,7 @@ const StorageForm: React.FC<StorageFormProps> = ({ model }) => {
 
           {canEdit && (
             <ControlledTextInput
+              id={`id-name`}
               readOnly={!canEdit}
               name="name"
               control={control}
@@ -214,6 +215,7 @@ const StorageForm: React.FC<StorageFormProps> = ({ model }) => {
 
           {canEdit && (
             <ControlledNumberInput
+              id={`id-capacity`}
               name="capacity"
               control={control}
               controllerName="capacity"

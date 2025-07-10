@@ -65,10 +65,11 @@ import { handleMutate } from "../api/swr-revalidation";
 import LocationTests from "../components/tests-selector/location-tests.component";
 import PatientHeaderInfo from "../components/patient-header-info/patient-header-info.component";
 import { useLaboratoryConfig } from "../hooks/useLaboratoryConfig";
+import { CloseWorkspaceOptions } from "@openmrs/esm-styleguide/src/workspaces/workspaces";
 
 export interface LabRequestProps {
   patientUuid?: string;
-  closeWorkspace?: (ignoreChanges?: boolean) => void;
+  closeWorkspace?: (closeWorkspaceOptions?: CloseWorkspaceOptions) => void;
   promptBeforeClosing?: (testFcn: () => boolean) => void;
   mode: "patient" | "other";
   model?: LabRequest | null;
@@ -207,7 +208,7 @@ const LabRequest: React.FC<LabRequestProps> = ({
           ),
         });
 
-        closeWorkspace(true);
+        closeWorkspace({ ignoreChanges: true });
       }
     } catch (error) {
       setIsSaving(false);
@@ -693,7 +694,7 @@ const LabRequest: React.FC<LabRequestProps> = ({
         <ModalFooter className={styles.modalFooter}>
           <Button
             disabled={isSaving}
-            onClick={() => closeWorkspace(true)}
+            onClick={() => closeWorkspace({ ignoreChanges: true })}
             kind="secondary"
           >
             {t("cancel", "Cancel")}

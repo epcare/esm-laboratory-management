@@ -1,6 +1,6 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
 
 .section, .approvalItems {
   margin: spacing.$spacing-03;
@@ -15,7 +15,7 @@
   :global(.cds--text-input), :global(.cds--list-box input[role=combobox]), :global(.cds--list-box input[type=text]),
   :global(.cds--select-input), :global(.cds--text-area), :global(.cds--number > div.cds--number__input-wrapper > input[type=number]),
   :global(.cds--date-picker__input){
-    background-color: $ui-02;    
+    background-color: vars.$ui-02;
   }
   :global(.cds--text-input__readonly-icon){
     display: none;
@@ -23,7 +23,7 @@
   z-index: 1000;
 }
 
-.approvalItems{  
+.approvalItems{
   display: flex;
   row-gap: 0.5rem;
   column-gap: 1rem;
@@ -36,7 +36,7 @@
 
 .approvalItems > div{
   height: min-content;
-  white-space: wrap !important;
+  white-space: pre-wrap !important;
   width: fit-content;
 
   p{

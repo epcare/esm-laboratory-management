@@ -5,14 +5,14 @@ import { TextInputProps } from "@carbon/react/lib/components/TextInput/TextInput
 
 interface ControlledTextInputProps<T> extends TextInputProps {
   controllerName: string;
-  id?: string;
+  id: string;
   name: string;
   control: Control<FieldValues, T>;
   readOnly?: boolean;
   maxLength?: number;
-  size?: string;
+  size?: "sm" | "md" | "lg" | "xl";
   value?: string;
-  labelText?: string;
+  labelText: string;
   invalid?: boolean;
   invalidText?: string;
   placeholder?: string;

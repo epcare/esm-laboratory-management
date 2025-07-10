@@ -1,9 +1,9 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
 
 .tileContainer {
-  border: 0.0625rem solid $ui-03;
+  border: 0.0625rem solid vars.$ui-03;
   flex-grow: 1;
   height: 7.875rem;
   padding: 0 spacing.$spacing-05;
@@ -19,17 +19,17 @@
 
 .headerLabel {
   @include type.type-style("heading-01");
-  color: $text-02;
+  color: vars.$text-02;
 }
 
 .totalsLabel {
   @include type.type-style("label-01");
-  color: $text-02;
+  color: vars.$text-02;
 }
 
 .totalsValue {
   @include type.type-style("heading-04");
-  color: $ui-05;
+  color: vars.$ui-05;
 }
 
 .headerLabelContainer {
@@ -44,7 +44,7 @@
 
 .kpis{
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: space-between;
 }
 

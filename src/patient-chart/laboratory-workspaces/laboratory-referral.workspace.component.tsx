@@ -1,9 +1,12 @@
 import React from "react";
 
-import { DefaultWorkspaceProps } from "@openmrs/esm-patient-common-lib";
+import { DefaultWorkspaceProps } from "@openmrs/esm-framework";
 import LabRequest from "../../lab-request/lab-request.component";
 
-export const LaboratoryWorkspace: React.FC<DefaultWorkspaceProps> = ({
+type LaboratoryWorkspaceProps = DefaultWorkspaceProps & {
+  patientUuid: string;
+};
+export const LaboratoryWorkspace: React.FC<LaboratoryWorkspaceProps> = ({
   closeWorkspace,
   promptBeforeClosing,
   patientUuid,

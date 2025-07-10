@@ -16,19 +16,19 @@ import { useLaboratoryConfig } from "../../hooks/useLaboratoryConfig";
 
 interface ControlledAccessionNumberInputProps<T> extends TextInputProps {
   controllerName: string;
-  id?: string;
+  id: string;
   name: string;
   control: Control<FieldValues, T>;
   readOnly?: boolean;
   maxLength?: number;
-  size?: string;
+  size?: "sm" | "md" | "lg" | "xl";
   value?: string;
-  labelText?: string;
+  labelText: string;
   invalid?: boolean;
   invalidText?: string;
   placeholder?: string;
   helperText?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ControlledAccessionNumber = <T,>(

@@ -118,7 +118,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };

@@ -82,7 +82,7 @@ const ApproveTestRequestDialog: React.FC<ApproveTestRequestDialogProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };

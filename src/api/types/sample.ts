@@ -1,6 +1,6 @@
 import { RecordPermission } from "./record-permission";
 import { TestConfig } from "./test-config";
-import type { Location as DiagonisticCenter } from "@openmrs/esm-api";
+import type { Location as DiagonisticCenter } from "@openmrs/esm-framework";
 import { TestRequestItem } from "./test-request-item";
 
 export type DiagonisticCenterTests = {

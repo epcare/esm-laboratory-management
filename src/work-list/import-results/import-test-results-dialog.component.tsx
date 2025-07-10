@@ -105,7 +105,7 @@ const ImportTestResults: React.FC<ImportTestResultsProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     } finally {
       setIsBusy(false);

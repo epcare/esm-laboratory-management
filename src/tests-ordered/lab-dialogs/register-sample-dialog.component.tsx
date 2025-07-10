@@ -171,7 +171,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
         title: t("laboratoryAddSampleError", "Error adding sample"),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };
@@ -222,6 +222,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
               </div>
               <div className={styles.sectionField}>
                 <ControlledAccessionNumber
+                  id={`id-accessionNumber`}
                   readOnly={false}
                   name={`accessionNumber`}
                   control={control}
@@ -250,6 +251,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                 <div className={styles.sectionRow}>
                   <div className={styles.numericInput}>
                     <ControlledNumberInput
+                      id={`id-containerCount`}
                       name="containerCount"
                       control={control}
                       controllerName="containerCount"
@@ -298,6 +300,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                 <div className={styles.sectionRow}>
                   <div className={styles.numericInput}>
                     <ControlledNumberInput
+                      id={`id-volume`}
                       type=""
                       name="volume"
                       control={control}
@@ -379,6 +382,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                   <div className={styles.sectionField}>
                     <div className={styles.sectionRow}>
                       <ControlledTextInput
+                        id="id-providedRef"
                         name="providedRef"
                         control={control}
                         controllerName="providedRef"
@@ -396,6 +400,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                         }
                       />
                       <ControlledTextInput
+                        id="id-confirmProvidedRef"
                         name="confirmProvidedRef"
                         control={control}
                         controllerName="confirmProvidedRef"

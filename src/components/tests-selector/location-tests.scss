@@ -1,14 +1,14 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
 
 .locationLabRequest{
     padding: 0.5rem;
-    border: 1px solid $ui-03;
-    background-color: $ui-01;
+    border: 1px solid vars.$ui-03;
+    background-color: vars.$ui-01;
 
     select, .selectedTestAltRow{
-        background-color: $ui-02 !important;
+        background-color: vars.$ui-02 !important;
     }
 }
 .labRequests{
@@ -51,14 +51,14 @@
 }
 
 .selectedTest:last-child{
-    border-bottom: 1px solid $ui-03;
+    border-bottom: 1px solid vars.$ui-03;
 }
 
 .selectedTest{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid $ui-03;
+    border-top: 1px solid vars.$ui-03;
     padding-top: 0.5rem;
     padding-bottom: 0.35rem;
     padding-left: 0.25rem;
@@ -78,7 +78,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-    }    
+    }
 }
 
 .section{

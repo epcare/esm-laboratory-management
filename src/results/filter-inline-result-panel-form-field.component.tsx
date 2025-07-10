@@ -46,7 +46,7 @@ const FilterInlineResultPanelFormField = <T,>({
             <div>
               <label className="cds--label">
                 {memberField.concept?.display +
-                  printValueRange(memberField.concept, "") ?? ""}
+                  printValueRange(memberField.concept, "")}
               </label>
               <div
                 style={{

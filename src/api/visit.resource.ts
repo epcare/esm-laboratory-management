@@ -1,4 +1,4 @@
-import { restBaseUrl } from "@openmrs/esm-framework";
+import { restBaseUrl, Visit } from "@openmrs/esm-framework";
 import {
   ResourceFilterCriteria,
   toQueryParams,
@@ -7,7 +7,6 @@ import { PageableResult } from "./types/pageable-result";
 import useSWRMutation from "swr/mutation";
 import useSWR, { mutate } from "swr";
 import { useCallback, useEffect, useState } from "react";
-import { type Visit } from "@openmrs/esm-api";
 import { customOpenMRSFetch } from "./custom-openmrs-fetch";
 
 export interface VisitFilterCriteria extends ResourceFilterCriteria {
