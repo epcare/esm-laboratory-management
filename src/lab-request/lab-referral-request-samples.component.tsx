@@ -184,6 +184,7 @@ const SampleItemsTable: React.FC<SampleItemTableProps> = ({
 
               {canEdit && (
                 <ControlledTextInput
+                  id={`id-samples.${rowIndex}.externalRef`}
                   readOnly={!canEdit}
                   name={`samples.${rowIndex}.externalRef`}
                   control={control}
@@ -214,6 +215,7 @@ const SampleItemsTable: React.FC<SampleItemTableProps> = ({
 
               {canEdit && (
                 <ControlledAccessionNumber
+                  id={`id-samples.${rowIndex}.accessionNumber`}
                   readOnly={!canEdit}
                   name={`samples.${rowIndex}.accessionNumber`}
                   control={control}
@@ -232,7 +234,11 @@ const SampleItemsTable: React.FC<SampleItemTableProps> = ({
                     errors?.samples?.[rowIndex]?.accessionNumber?.message
                   }
                   onChange={(e) =>
-                    onAccessionNumberChange(fields[rowIndex], rowIndex, e)
+                    onAccessionNumberChange(
+                      fields[rowIndex],
+                      rowIndex,
+                      e as string
+                    )
                   }
                 />
               )}

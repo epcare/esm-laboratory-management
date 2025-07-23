@@ -1,13 +1,14 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use '@carbon/styles/scss/colors';
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
 
 .modalBody {
     overflow-y: visible;
     :global(.cds--text-input), :global(.cds--list-box input[role=combobox]), :global(.cds--list-box input[type=text]),
     :global(.cds--select-input), :global(.cds--text-area), :global(.cds--number > div.cds--number__input-wrapper > input[type=number])
     {
-        background-color: $ui-02;    
+        background-color: vars.$ui-02;
     }
 }
 
@@ -25,5 +26,5 @@
 }
 
 .errorText{
-    color: $danger
+    color: colors.$red-60
 }

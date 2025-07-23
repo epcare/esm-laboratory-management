@@ -10,7 +10,7 @@ interface ControlledTextAreaProps<T> extends TextAreaProps {
   id?: string;
   maxLength: number;
   value?: string;
-  labelText?: string;
+  labelText: string;
   invalid?: boolean;
   invalidText?: string;
   placeholder?: string;

@@ -197,7 +197,7 @@ const LabRequest: React.FC<LabReferralRequestProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };
@@ -349,6 +349,7 @@ const LabRequest: React.FC<LabReferralRequestProps> = ({
                         className={`${styles.panelContainer} ${styles.referralInfo}`}
                       >
                         <ControlledTextInput
+                          id={`id-referralInExternalRef`}
                           name="referralInExternalRef"
                           control={control}
                           controllerName="referralInExternalRef"

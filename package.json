@@ -1,14 +1,14 @@
 {
-    "name": "@ugandaemr/esm-laboratory-management-app",
+    "name": "@epcare/esm-laboratory-management-app",
     "version": "2.0.0",
     "license": "MPL-2.0",
-    "description": "Laboratory Management microfrontend for OpenMRS 3.x",
+    "description": "Laboratory Management microfrontend",
     "browser": "dist/esm-laboratory-management-app.js",
     "main": "src/index.ts",
     "source": true,
     "scripts": {
         "start": "openmrs develop",
-        "start-local": "openmrs develop --backend http://localhost:44305 --port 8090",
+        "start-local": "openmrs develop",
         "serve": "webpack serve --mode=development",
         "build": "webpack --mode production",
         "analyze": "webpack --mode=production --env analyze=true",
@@ -36,17 +36,17 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/openmrs/openmrs-esm-laboratory.git"
+        "url": "git+https://github.com/epcare/esm-laboratory.git"
     },
-    "homepage": "https://github.com/openmrs/openmrs-esm-laboratory#readme",
+    "homepage": "https://github.com/epcare/esm-laboratory#readme",
     "publishConfig": {
         "access": "public"
     },
     "bugs": {
-        "url": "https://github.com/openmrs/openmrs-esm-laboratory/issues"
+        "url": "https://github.com/epcare/esm-laboratory/issues"
     },
     "dependencies": {
-        "@carbon/react": "^1.14.0",
+        "@carbon/react": "^1.83.0",
         "@hookform/resolvers": "^3.3.4",
         "lodash-es": "^4.17.21",
         "react-hook-form": "^7.49.3",
@@ -54,7 +54,7 @@
         "zod": "^3.22.4"
     },
     "peerDependencies": {
-        "@openmrs/esm-framework": "*",
+        "@openmrs/esm-framework": "6.x",
         "dayjs": "1.x",
         "react": "18.x",
         "react-i18next": "11.x",
@@ -63,11 +63,8 @@
     },
     "devDependencies": {
         "@ohri/openmrs-esm-ohri-commons-lib": "next",
-        "@openmrs/esm-extensions": "next",
         "@openmrs/esm-framework": "next",
         "@openmrs/esm-patient-common-lib": "next",
-        "@openmrs/esm-react-utils": "next",
-        "@openmrs/esm-styleguide": "next",
         "@swc/cli": "^0.1.62",
         "@swc/core": "^1.3.62",
         "@swc/jest": "^0.2.26",
@@ -112,13 +109,13 @@
         "react-table": "^7.8.0",
         "rxjs": "^6.6.7",
         "swc-loader": "^0.2.3",
-        "turbo": "^1.10.12",
+        "turbo": "^2.5.2",
         "typescript": "^4.9.5",
-        "webpack": "^5.88.1",
-        "webpack-cli": "^5.1.3"
+        "webpack": "^5.99.9",
+        "webpack-cli": "^6.0.1"
     },
     "resolutions": {
-        "@carbon/react": "1.14.0"
+        "@carbon/react": "1.83.0"
     },
-    "packageManager": "yarn@4.1.1"
+    "packageManager": "yarn@4.9.1"
 }

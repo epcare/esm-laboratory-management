@@ -318,7 +318,7 @@ const ImportTestResultsConfig: React.FC<ImportTestResultsConfigProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     } finally {
       setIsBusy(false);

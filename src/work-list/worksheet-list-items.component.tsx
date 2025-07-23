@@ -416,7 +416,7 @@ const WorksheetListItems: React.FC<WorksheetListItemsProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };
@@ -1017,8 +1017,8 @@ const WorksheetListItems: React.FC<WorksheetListItemsProps> = ({
                                   : `${entry.worksheetItem.patientIdentifier}-${
                                       entry.worksheetItem.patientFamilyName ??
                                       ""
-                                    } 
-                ${entry.worksheetItem.patientGivenName ?? ""} 
+                                    }
+                ${entry.worksheetItem.patientGivenName ?? ""}
                 ${entry.worksheetItem.patientMiddleName ?? ""}`}
                               </div>
                             </div>

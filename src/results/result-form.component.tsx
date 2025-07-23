@@ -301,7 +301,7 @@ const ResultForm: React.FC<ResultFormProps> = ({
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };

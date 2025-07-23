@@ -1,7 +1,6 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import '~@openmrs/esm-styleguide/src/vars';
-@import '../../root.scss';
+@use '~@openmrs/esm-styleguide/src/vars' as vars;
 
 .desktopOverlay {
   position: fixed;
@@ -9,15 +8,15 @@
   width: 37rem;
   right: 0;
   bottom: 0;
-  border-left: 1px solid $text-03;
-  background-color: $ui-01;
+  border-left: 1px solid vars.$text-03;
+  background-color: vars.$ui-01;
   overflow-y: auto;
   height: calc(100vh - 3rem);
 }
 
 .desktopOverlay::after {
   height: 100%;
-  border-left: 1px solid $text-03;
+  border-left: 1px solid vars.$text-03;
 }
 
 .desktopOverlay:has(:global(.elevate-above-grid)) {
@@ -31,7 +30,7 @@
   left: 0;
   right: 0;
   z-index: 9999;
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -47,11 +46,11 @@
 
 .tabletOverlayHeader {
   button {
-    @include brand-01(background-color);
+    @include vars.brand-01(background-color);
   }
 
   .headerContent {
-    color: $ui-02;
+    color: vars.$ui-02;
   }
 }
 
@@ -59,10 +58,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: $ui-03;
-  border-bottom: 1px solid $text-03;
+  background-color: vars.$ui-03;
+  border-bottom: 1px solid vars.$text-03;
   position: sticky;
-  position: -webkit-sticky;
   width: 100%;
   z-index: 1000;
   top: 0;
@@ -71,13 +69,13 @@
 .headerContent {
   @include type.type-style('heading-compact-02');
   padding: 0 spacing.$spacing-05;
-  color: $ui-05;
+  color: vars.$ui-05;
 }
 
 .closeButton {
-  background-color: $ui-background;
-  color: $ui-05;
-  fill: $ui-05;
+  background-color: vars.$ui-background;
+  color: vars.$ui-05;
+  fill: vars.$ui-05;
 }
 
 /* Desktop */

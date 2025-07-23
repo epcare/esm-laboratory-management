@@ -232,7 +232,7 @@ const CreateReport: React.FC<CreateReportProps> = ({ model }) => {
         ),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     } finally {
       setLoadingTestOutcome(false);
@@ -1048,6 +1048,7 @@ const CreateReport: React.FC<CreateReportProps> = ({ model }) => {
         )}
         {displayReferenceNumber && (
           <ControlledTextInput
+            id={`id-referenceNumber`}
             name="referenceNumber"
             control={control}
             controllerName="referenceNumber"

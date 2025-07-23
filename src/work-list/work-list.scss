@@ -1,7 +1,6 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
-@import '../root.scss';
+@use '~@openmrs/esm-styleguide/src/vars' as vars;
 
 title {
   width: 6.938rem;
@@ -37,7 +36,7 @@ title {
 }
 
 .orderTabs {
-  grid-column: 'span 2';
+  grid-column: span 2;
   padding: 0 spacing.$spacing-05;
 }
 
@@ -48,7 +47,7 @@ title {
 }
 
 .tabsContainer {
-  background-color: $ui-02;
+  background-color: vars.$ui-02;
 
   :global(.cds--tabs__nav-item--selected) {
     box-shadow: inset 0 2px 0 0 var(--brand-03) !important;
@@ -69,7 +68,7 @@ title {
   grid-column: 1 / 2;
   height: 100%;
   margin: 0.5rem spacing.$spacing-05;
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
   border: 0.5px solid #e0e0e0;
 
   :global(.cds--data-table-container) {
@@ -85,19 +84,19 @@ title {
   }
 
   :global(.cds--data-table--zebra) tbody tr[data-parent-row]:nth-child(4n + 1) td {
-    background-color: $ui-02;
-    border-bottom: 1px solid $ui-03;
-    border-top: 1px solid $ui-03;
+    background-color: vars.$ui-02;
+    border-bottom: 1px solid vars.$ui-03;
+    border-top: 1px solid vars.$ui-03;
   }
 
   :global(.cds--data-table--zebra) tbody tr[data-parent-row]:nth-child(4n + 3) td {
-    background-color: $ui-01;
-    border-bottom: 1px solid $ui-03;
+    background-color: vars.$ui-01;
+    border-bottom: 1px solid vars.$ui-03;
   }
 }
 
 .tableContainer {
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
   margin: 0 spacing.$spacing-05;
   padding: 0;
 
@@ -106,11 +105,11 @@ title {
   }
 
   th {
-    color: $text-02;
+    color: vars.$text-02;
   }
 
   :global(.cds--data-table) {
-    background-color: $ui-03;
+    background-color: vars.$ui-03;
   }
 
   .toolbarContent {
@@ -149,7 +148,7 @@ title {
 
 .patientSearch {
   width: 25rem;
-  border-bottom-color: $ui-03;
+  border-bottom-color: vars.$ui-03;
 }
 
 .locationFilter {
@@ -159,12 +158,12 @@ title {
 .search {
   width: 100%;
   max-width: 16rem;
-  background-color: $ui-02;
-  border-bottom-color: $ui-03;
+  background-color: vars.$ui-02;
+  border-bottom-color: vars.$ui-03;
 }
 
 .container {
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
 }
 
 .expandedLabQueueVisitRow {
@@ -177,7 +176,7 @@ title {
 
     >div {
       max-height: max-content !important;
-      background-color: $ui-02;
+      background-color: vars.$ui-02;
     }
   }
 
@@ -188,8 +187,8 @@ title {
 
 
 .tileContainer {
-  background-color: $ui-02;
-  border-top: 1px solid $ui-03;
+  background-color: vars.$ui-02;
+  border-top: 1px solid vars.$ui-03;
   padding: 5rem 0;
 }
 
@@ -206,14 +205,14 @@ title {
 
 .content {
   @include type.type-style('heading-compact-02');
-  color: $text-02;
+  color: vars.$text-02;
   margin-bottom: 0.5rem;
 }
 
 .navigationButtons{
   display: flex;
-  justify-content: flex-start; 
-  margin: 0.25rem 1rem; 
+  justify-content: flex-start;
+  margin: 0.25rem 1rem;
 }
 
 .navigationButton {
@@ -237,7 +236,7 @@ title {
 }
 
 .form{
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -248,18 +247,18 @@ title {
 }
 
 .modalBody {
-  overflow-y: visible; 
-  padding-left: 1rem;   
+  overflow-y: visible;
+  padding-left: 1rem;
   padding-top: 1rem;
   margin-bottom: 0.85rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  
+
   :global(.cds--text-input), :global(.cds--list-box input[role=combobox]), :global(.cds--list-box input[type=text]),
   :global(.cds--select-input), :global(.cds--text-area), :global(.cds--number > div.cds--number__input-wrapper > input[type=number]){
-      background-color: $ui-02;    
+      background-color: vars.$ui-02;
   }
 }
 
@@ -270,7 +269,7 @@ title {
 
 
 .borderBottom{
-  border-bottom: .063rem solid $ui-03;
+  border-bottom: .063rem solid vars.$ui-03;
 }
 
 .clear-margin-padding-bottom {
@@ -282,18 +281,18 @@ title {
   margin: 0;
 }
 
-.inputWhite { 
+.inputWhite {
   input, textarea, :global(.cds--select-input), select{
-      background-color: $ui-02;
+      background-color: vars.$ui-02;
   }
 }
 
 .errorText {
-  color: $danger;
+  color: #da1e28;
 }
 
 .tabs {
-  grid-column: 'span 2';
+  grid-column: span 2;
 }
 
 .tablist {
@@ -324,7 +323,7 @@ title {
 
 .listsTableContainer {
   padding: spacing.$spacing-05;
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
   height: calc(100vh - 12rem);
 }
 
@@ -364,7 +363,7 @@ title {
       min-height: 0;
     }
 
-    
+
     svg{
       width: 24px;
       height: 24px;
@@ -410,7 +409,7 @@ title {
 }
 
 .testSampleReference{
-  
+
 }
 
 .wrapWhiteSpace{
@@ -431,7 +430,7 @@ title {
   align-items: center;
   margin-top: 0.5rem;
 
-  
+
 
   .diagnosis{
     width: 25rem;
@@ -442,7 +441,7 @@ title {
   max-width: max-content;
 }
 
-.sampleFilters > :global(.cds--text-input-wrapper){  
+.sampleFilters > :global(.cds--text-input-wrapper){
   max-width: 8rem;
 }
 

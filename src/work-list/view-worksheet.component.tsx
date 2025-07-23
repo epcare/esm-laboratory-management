@@ -38,7 +38,7 @@ const ViewWorksheet = () => {
           title: t("laboratoryLoadWorksheetError", "Error loading worksheet"),
           kind: "error",
           critical: true,
-          description: extractErrorMessagesFromResponse(error),
+          description: error?.message,
         });
       }
     }

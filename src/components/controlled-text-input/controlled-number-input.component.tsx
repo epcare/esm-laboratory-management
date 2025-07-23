@@ -6,14 +6,14 @@ import styles from "./controlled-number-input.scss";
 
 interface ControlledNumberInputProps<T> extends TextInputProps {
   controllerName: string;
-  id?: string;
+  id: string;
   name: string;
   control: Control<FieldValues, T>;
   readOnly?: boolean;
   maxLength?: number;
-  size?: string;
+  size?: "sm" | "md" | "lg" | "xl";
   value?: string;
-  labelText?: string;
+  labelText: string;
   invalid?: boolean;
   invalidText?: string;
   placeholder?: string;

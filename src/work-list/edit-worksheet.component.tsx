@@ -248,7 +248,7 @@ const EditWorksheet: React.FC<EditWorksheetProps> = ({ model }) => {
           : t("laboratoryAddWorksheetError", "Error adding worksheet"),
         kind: "error",
         critical: true,
-        description: extractErrorMessagesFromResponse(error),
+        description: error?.message,
       });
     }
   };
@@ -627,6 +627,7 @@ const EditWorksheet: React.FC<EditWorksheetProps> = ({ model }) => {
                         {responsibilityPersonUuid &&
                           responsibilityPersonUuid === otherUser.uuid && (
                             <ControlledTextInput
+                              id="id-responsiblePersonOther"
                               name="responsiblePersonOther"
                               control={control}
                               controllerName="responsiblePersonOther"

@@ -148,7 +148,7 @@ export const printTransaction = async (
       title: translator("laboratoryPrintError", "Error Printing"),
       kind: "error",
       critical: true,
-      description: extractErrorMessagesFromResponse(error),
+      description: error?.message,
     });
   } finally {
     isPrintingCallback(false);

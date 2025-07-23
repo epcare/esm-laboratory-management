@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./laboratory-past-test-order-results.scss";
-import { ErrorState, showModal } from "@openmrs/esm-framework";
+import { ErrorState, showModal, launchWorkspace } from "@openmrs/esm-framework";
 import { mutate } from "swr";
 import {
   DataTable,
@@ -31,10 +31,7 @@ import { MailAll, Add, Checkmark, SendAlt, NotSent } from "@carbon/react/icons";
 
 import TestsResults from "../results-summary/test-results-table.component";
 
-import {
-  CardHeader,
-  launchPatientWorkspace,
-} from "@openmrs/esm-patient-common-lib";
+import { CardHeader } from "@openmrs/esm-patient-common-lib";
 import { useLaboratoryConfig } from "../../hooks/useLaboratoryConfig";
 import { useTestRequestResource } from "../../api/test-request.resource";
 import {
@@ -96,7 +93,7 @@ const LaboratoryPastTestOrderResults: React.FC<
   }, []);
 
   const launchLabRequestForm = () => {
-    launchPatientWorkspace("patient-laboratory-referral-workspace", {
+    launchWorkspace("patient-laboratory-referral-workspace", {
       workspaceTitle: "Lab Request Form",
       mutateForm: () => {
         mutate((key) => true, undefined, {

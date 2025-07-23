@@ -1,6 +1,6 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import '~@openmrs/esm-styleguide/src/vars';
+@use '~@openmrs/esm-styleguide/src/vars' as vars;
 
 .productiveHeading01 {
   @include type.type-style("heading-01");
@@ -31,7 +31,7 @@
 }
 
 .text02 {
-  color: $text-02;
+  color: vars.$text-02;
 }
 
 .label01 {

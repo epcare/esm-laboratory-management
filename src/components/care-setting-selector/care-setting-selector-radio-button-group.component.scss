@@ -1,6 +1,6 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use '@carbon/styles/scss/colors';
 
 .radioLabel{
     padding-top:0.45rem;
@@ -16,5 +16,5 @@
 }
 
 .errorText {
-    color: $danger;
+    color: colors.$red-60;
 }

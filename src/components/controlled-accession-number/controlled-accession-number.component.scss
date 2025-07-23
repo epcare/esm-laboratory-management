@@ -1,10 +1,8 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
+@use '@carbon/styles/scss/colors';
 
-  
-
-.generateBtn{    
+.generateBtn{
     margin: 0;
     padding: 0;
     height: 2.45rem;
@@ -22,6 +20,6 @@
 
 
 .errorText{
-    color: $danger;
+    color: colors.$red-60;
     padding: 0;
   }

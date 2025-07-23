@@ -6,6 +6,7 @@ import { Button } from "@carbon/react";
 import styles from "./work-list.scss";
 import { navigate } from "@openmrs/esm-framework";
 import {
+  URL_LAB_WORKLIST_REQUESTS,
   URL_LAB_WORKLIST_REQUESTS_ABS,
   URL_LAB_WORKSHEET,
   URL_LAB_WORKSHEET_ABS,
@@ -64,7 +65,7 @@ const WorkListHome: React.FC<WorklistProps> = () => {
         <Route
           key="default-route"
           path={"*"}
-          element={<Navigate to={URL_LAB_WORKSHEET} />}
+          element={<Navigate to={URL_LAB_WORKLIST_REQUESTS} />}
         />
       </Routes>
     </>

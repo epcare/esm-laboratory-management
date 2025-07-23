@@ -18,15 +18,13 @@ import RegisterSampleDialog from "./tests-ordered/lab-dialogs/register-sample-di
 import UseExistingSampleDialog from "./tests-ordered/lab-dialogs/use-existing-sample-dialog.component";
 import ImportTestResultsDialog from "./work-list/import-results/import-test-results-dialog.component";
 
-import {
-  createDashboardLink,
-  registerWorkspace,
-} from "@openmrs/esm-patient-common-lib";
+import { createDashboardLink } from "@openmrs/esm-patient-common-lib";
+import { registerWorkspace } from "@openmrs/esm-extensions";
 
-const moduleName = "@ugandaemr/esm-laboratory-app";
+const moduleName = "@epcare/esm-laboratory-app";
 
 const options = {
-  featureName: "ugandaemr-esm-laboratory",
+  featureName: "epcare-esm-laboratory",
   moduleName,
 };
 
@@ -55,6 +53,7 @@ export const laboratoryOrderDashboardLink = getSyncLifecycle(
   createDashboardLink({
     path: "laboratory-orders",
     title: "Investigative Results",
+    icon: "",
     moduleName,
   }),
   options
@@ -112,5 +111,6 @@ export function startupApp() {
     name: "patient-laboratory-referral-workspace",
     title: "Laboratory Referral Form",
     load: getSyncLifecycle(laboratoryReferralWorkspaceComponent, options),
+    moduleName,
   });
 }

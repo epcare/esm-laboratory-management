@@ -1,29 +1,29 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
-@import '../root.scss';
-  
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
+@use '@carbon/styles/scss/colors';
+
 .tableContainer {
-    background-color: $ui-01;
+    background-color: vars.$ui-01;
     margin: 0;
     padding: 0;
-  
+
     :global(.cds--data-table-content) {
       overflow-x: unset;
     }
-  
+
     a {
       text-decoration: none;
     }
-  
+
     th {
-      color: $text-02;
+      color: vars.$text-02;
     }
-  
+
     :global(.cds--data-table) {
-      background-color: $ui-03;
+      background-color: vars.$ui-03;
     }
-  
+
     .toolbarContent {
       height: spacing.$spacing-07;
       margin-bottom: spacing.$spacing-02;
@@ -46,7 +46,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 0.5rem;
-    border: 1px solid $grey-2;
+    border: 1px solid vars.$grey-2;
     padding: 0.5rem;
     :global(.cds--text-input__readonly-icon){
       display: none;
@@ -54,11 +54,11 @@
     align-self: flex-start;
     max-height: 40rem;
     overflow-y: auto;
-    background-color: $openmrs-background-grey;
+    background-color: colors.$gray-10;
   }
 
   .AltRow{
-    background-color: $openmrs-background-grey;
+    background-color: colors.$gray-10;
   }
 
   .sampleRemove{
@@ -72,6 +72,6 @@
   }
 
   .errorText{
-    color: $danger;
+    color: colors.$red-60;
     padding: 0.7rem 0 0 1rem;
   }

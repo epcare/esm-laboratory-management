@@ -1,8 +1,7 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/colors';
 @use '@carbon/styles/scss/type';
-@import "~@openmrs/esm-styleguide/src/vars";
-@import '../../root.scss';
+@use "~@openmrs/esm-styleguide/src/vars" as vars;
 
 
 .widgetCard {
@@ -10,7 +9,7 @@
     border-bottom: none;
 
     .expandedActiveVisitRow table tbody td {
-      padding-left: 1rem !important;      
+      padding-left: 1rem !important;
     }
 
     .status{
@@ -32,14 +31,14 @@
 }
 
 .headerBtnContainer {
-  background-color: $ui-background;
+  background-color: vars.$ui-background;
   padding: spacing.$spacing-05;
   text-align: right;
 }
 
 .tileContainer {
-  background-color: $ui-02;
-  border-top: 1px solid $ui-03;
+  background-color: vars.$ui-02;
+  border-top: 1px solid vars.$ui-03;
   padding: 5rem 0;
 }
 
@@ -56,22 +55,22 @@
 
 .content {
   @include type.type-style('heading-compact-02');
-  color: $text-02;
+  color: vars.$text-02;
   margin-bottom: 0.5rem;
 }
 
 .helper {
   @include type.type-style('body-compact-01');
-  color: $text-02;
+  color: vars.$text-02;
 }
 
 .container {
-  background-color: $ui-01;
+  background-color: vars.$ui-01;
 }
 
 .separator {
   @include type.type-style('body-compact-02');
-  color: $text-02;
+  color: vars.$text-02;
   width: 80%;
   margin: 1.5rem auto;
   overflow: hidden;
@@ -79,7 +78,7 @@
 
   &::before,
   &::after {
-    background-color: $text-03;
+    background-color: vars.$text-03;
     content: '';
     display: inline-block;
     height: 1px;
