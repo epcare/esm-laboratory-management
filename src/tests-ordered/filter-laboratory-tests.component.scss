@@ -3,16 +3,48 @@
   }
 
   .select, .patient{
-    min-width: 8rem;
+    width: 8.5rem;
+    min-width: 9rem;
+
+    // Make the dropdown menu wider to display full names
+    :global(.cds--select-input__wrapper) {
+      width: 8.5rem;
+    }
+
+    :global(.cds--select-input) {
+      width: 8.5rem;
+    }
+
+    // Dropdown menu should be wider to show full names
+    :global(.cds--list-box) {
+      width: 20rem;
+      max-width: 20rem;
+    }
   }
 
-  .patient{    
+  .patient{
     height: 2.9rem;
     width: 24rem;
   }
 
   .testSelect{
-    min-width: 20rem;
+    width: 8.5rem;
+    min-width: 8.5rem;
+
+    // Make the dropdown menu wider to display full test names
+    :global(.cds--select-input__wrapper) {
+      width: 8.5rem;
+    }
+
+    :global(.cds--select-input) {
+      width: 8.5rem;
+    }
+
+    // Dropdown menu should be wider to show full test names
+    :global(.cds--list-box) {
+      width: 25rem;
+      max-width: 25rem;
+    }
   }
 
   .dateInput{
@@ -42,4 +74,23 @@
     :global(.cds--toggle__label-text){
       margin-bottom: 0;
     }
+  }
+
+  // Bring selects closer together and right-align
+  :global(.cds--form-item) {
+    &.spacing {
+      margin: 0 0.5rem;
+    }
+  }
+
+  // Make selects compact and right-aligned in toolbar
+  :global(.cds--select) {
+    &.cds--select-input--sm .cds--select-input__wrapper {
+      width: 8.5rem;
+    }
+  }
+
+  // Reduce spacing between form items
+  :global(.cds--list-box__menu-item) {
+    padding: 0.5rem 1rem;
   }

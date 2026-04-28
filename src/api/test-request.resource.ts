@@ -13,7 +13,6 @@ import useSWR from "swr";
 import { TestRequest } from "./types/test-request";
 import { useCallback, useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
-import { useTranslation } from "react-i18next";
 import { customOpenMRSFetch } from "./custom-openmrs-fetch";
 
 export interface TestRequestFilter extends ResourceFilterCriteria {
@@ -41,6 +40,7 @@ export interface TestRequestFilter extends ResourceFilterCriteria {
   includeItemConcept?: boolean;
   worksheetInfo?: boolean;
   itemMatch?: string;
+  syncStatus?: "NOT_SYNCED" | "SYNCED" | null;
 }
 
 export function getTestRequests(filter: TestRequestFilter) {
@@ -127,6 +127,9 @@ export function useLazyTestRequestResource(defaultFilters?: TestRequestFilter) {
     defaultFilters?.worksheetInfo
   );
   const [itemMatch, setItemMatch] = useState<string>(defaultFilters?.itemMatch);
+  const [syncStatus, setSyncStatus] = useState<"NOT_SYNCED" | "SYNCED" | null>(
+    defaultFilters?.syncStatus
+  );
 
   const [testRequestFilter, setTestRequestFilter] = useState<TestRequestFilter>(
     () => {
@@ -191,6 +194,7 @@ export function useLazyTestRequestResource(defaultFilters?: TestRequestFilter) {
           includeItemConcept: includeItemConcept,
           worksheetInfo: worksheetInfo,
           itemMatch: itemMatch,
+          syncStatus: syncStatus,
         },
       };
     });
@@ -211,6 +215,7 @@ export function useLazyTestRequestResource(defaultFilters?: TestRequestFilter) {
     includeItemConcept,
     worksheetInfo,
     itemMatch,
+    syncStatus,
   ]);
 
   useEffect(() => {
@@ -269,6 +274,8 @@ export function useLazyTestRequestResource(defaultFilters?: TestRequestFilter) {
     isLazy,
     setItemMatch,
     itemMatch,
+    syncStatus,
+    setSyncStatus,
   };
 }
 
@@ -312,6 +319,9 @@ export function useTestRequestResource(defaultFilters?: TestRequestFilter) {
   );
 
   const [itemMatch, setItemMatch] = useState<string>(defaultFilters?.itemMatch);
+  const [syncStatus, setSyncStatus] = useState<"NOT_SYNCED" | "SYNCED" | null>(
+    defaultFilters?.syncStatus
+  );
 
   const [testRequestFilter, setTestRequestFilter] = useState<TestRequestFilter>(
     () => {
@@ -356,6 +366,7 @@ export function useTestRequestResource(defaultFilters?: TestRequestFilter) {
           includeItemConcept: includeItemConcept,
           worksheetInfo: worksheetInfo,
           itemMatch: itemMatch,
+          syncStatus: syncStatus,
         },
       };
     });
@@ -376,6 +387,7 @@ export function useTestRequestResource(defaultFilters?: TestRequestFilter) {
     includeItemConcept,
     worksheetInfo,
     itemMatch,
+    syncStatus,
   ]);
 
   useEffect(() => {
@@ -426,6 +438,8 @@ export function useTestRequestResource(defaultFilters?: TestRequestFilter) {
     setWorksheetInfo,
     itemMatch,
     setItemMatch,
+    syncStatus,
+    setSyncStatus,
   };
 }
 

@@ -26,6 +26,7 @@ import {
   parseDate,
   useSession,
   userHasAccess,
+  showSnackbar,
 } from "@openmrs/esm-framework";
 import React, { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -43,6 +44,7 @@ import styles from "../tests-ordered/laboratory-queue.scss";
 import {
   getDescriptiveStatus,
   TestRequestItemStatusCancelled,
+  SyncViewType,
 } from "../api/types/test-request-item";
 import { useOrderDate } from "../hooks/useOrderDate";
 import { formatTestName } from "../components/test-name";
@@ -62,6 +64,14 @@ import PrintTestRequestButton from "../print/print-test-request-action-button.co
 import EntityName, {
   getEntityName,
 } from "../components/test-request/entity-name";
+import {
+  syncAllTestOrders,
+  syncSelectedTestOrders,
+  syncAllTestOrderResults,
+  syncSelectedTestOrderResults,
+} from "../api/referred-orders-sync.resource";
+import { extractErrorMessagesFromResponse } from "../utils/functions";
+import SyncControls from "./sync-controls.component";
 
 interface TestRequestReferredListProps {
   from?: string;
@@ -79,6 +89,13 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
   const [expandedItems, setExpandedItems] = useState<{
     [key: string]: boolean;
   }>({});
+  const [syncView, setSyncView] = useState<SyncViewType>("NOT_SYNCED");
+  const [isSyncingAllTestOrders, setIsSyncingAllTestOrders] = useState(false);
+  const [isSyncingSelectedTestOrders, setIsSyncingSelectedTestOrders] =
+    useState(false);
+  const [isRequestingAllResults, setIsRequestingAllResults] = useState(false);
+  const [isRequestingSelectedResults, setIsRequestingSelectedResults] =
+    useState(false);
 
   useEffect(
     () => {
@@ -117,6 +134,8 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
     setItemLocation,
     allTests,
     setAllTests,
+    syncStatus,
+    setSyncStatus,
   } = useTestRequestResource({
     v: ResourceRepresentation.Full,
     //itemStatus: `${TestRequestItemStatusReferredOutLab},${TestRequestItemStatusReferredOutProvider}`,
@@ -130,6 +149,7 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
     testResultApprovals: true,
     includeItemConcept: true,
     worksheetInfo: true,
+    syncStatus: syncView === "NOT_SYNCED" ? "NOT_SYNCED" : "SYNCED",
   });
 
   const debouncedSearch = useMemo(
@@ -138,10 +158,17 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
   );
 
   useEffect(() => {
-    if (minActivatedDate !== currentOrdersDate) {
+    if (minActivatedDate !== currentOrdersDate && currentOrdersDate) {
       setMinActivatedDate(currentOrdersDate);
     }
   }, [currentOrdersDate, minActivatedDate, setMinActivatedDate]);
+
+  useEffect(() => {
+    const newSyncStatus = syncView === "NOT_SYNCED" ? "NOT_SYNCED" : "SYNCED";
+    if (syncStatus !== newSyncStatus) {
+      setSyncStatus(newSyncStatus);
+    }
+  }, [syncView, syncStatus, setSyncStatus]);
 
   const handleSearch = (query: string) => {
     setSearchInput(query);
@@ -187,7 +214,12 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
       header: t("status", "Status"),
       key: "status",
     },
-    { id: 5, header: "", key: "actions" },
+    {
+      id: 5,
+      header: t("syncStatus", "Sync Status"),
+      key: "syncStatus",
+    },
+    { id: 6, header: "", key: "actions" },
   ];
 
   const tableRows = useMemo(() => {
@@ -291,6 +323,24 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
                 )}
               </>
             ),
+            syncStatus: (
+              <>
+                {test.syncTask === null && (
+                  <Tag type="gray">{t("notSynced", "Not Synced")}</Tag>
+                )}
+                {test.syncTask === "SYNCING" && (
+                  <Tag type="blue">{t("syncing", "Syncing...")}</Tag>
+                )}
+                {test.syncTask === "SYNCED" && (
+                  <Tag type="green">{t("synced", "Synced")}</Tag>
+                )}
+                {test.syncTask &&
+                  test.syncTask !== "SYNCING" &&
+                  test.syncTask !== "SYNCED" && (
+                    <Tag type="red">{test.syncTask}</Tag>
+                  )}
+              </>
+            ),
             actions: (
               <div
                 className={`${styles.clearGhostButtonPadding} ${styles.rowActions}`}
@@ -326,6 +376,111 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
 
   const refreshTestItems = () => {
     handleMutate(URL_API_TEST_REQUEST);
+  };
+
+  const handleToggleChange = () => {
+    setSyncView((prev) => (prev === "NOT_SYNCED" ? "SYNCED" : "NOT_SYNCED"));
+    setSelectedItems({});
+  };
+
+  const handleSyncAllTestOrders = async () => {
+    setIsSyncingAllTestOrders(true);
+    try {
+      await syncAllTestOrders();
+      showSnackbar({
+        title: "Sync Status",
+        subtitle: "All test orders synced successfully",
+        kind: "success",
+      });
+      handleMutate(URL_API_TEST_REQUEST);
+    } catch (error) {
+      showSnackbar({
+        title: "Sync Status",
+        subtitle:
+          extractErrorMessagesFromResponse(error).join(", ") ||
+          "Failed to sync test orders",
+        kind: "error",
+      });
+    } finally {
+      setIsSyncingAllTestOrders(false);
+    }
+  };
+
+  const handleSyncSelectedTestOrders = async (selectedOrders: string[]) => {
+    setIsSyncingSelectedTestOrders(true);
+    try {
+      await syncSelectedTestOrders(selectedOrders);
+      showSnackbar({
+        title: "Sync Status",
+        subtitle: "Selected test orders synced successfully",
+        kind: "success",
+      });
+      handleMutate(URL_API_TEST_REQUEST);
+    } catch (error) {
+      showSnackbar({
+        title: "Sync Status",
+        subtitle:
+          extractErrorMessagesFromResponse(error).join(", ") ||
+          "Failed to sync test orders",
+        kind: "error",
+      });
+    } finally {
+      setIsSyncingSelectedTestOrders(false);
+    }
+  };
+
+  const handleRequestAllResults = async () => {
+    setIsRequestingAllResults(true);
+    try {
+      await syncAllTestOrderResults();
+      showSnackbar({
+        title: "Result Request Status",
+        subtitle: "Result requests submitted successfully",
+        kind: "success",
+      });
+      handleMutate(URL_API_TEST_REQUEST);
+    } catch (error) {
+      showSnackbar({
+        title: "Result Request Status",
+        subtitle:
+          extractErrorMessagesFromResponse(error).join(", ") ||
+          "Failed to request results",
+        kind: "error",
+      });
+    } finally {
+      setIsRequestingAllResults(false);
+    }
+  };
+
+  const handleRequestSelectedResults = async (selectedOrders: string[]) => {
+    setIsRequestingSelectedResults(true);
+    try {
+      await syncSelectedTestOrderResults(selectedOrders);
+      showSnackbar({
+        title: "Result Request Status",
+        subtitle: "Selected result requests submitted successfully",
+        kind: "success",
+      });
+      handleMutate(URL_API_TEST_REQUEST);
+    } catch (error) {
+      showSnackbar({
+        title: "Result Request Status",
+        subtitle:
+          extractErrorMessagesFromResponse(error).join(", ") ||
+          "Failed to request results",
+        kind: "error",
+      });
+    } finally {
+      setIsRequestingSelectedResults(false);
+    }
+  };
+
+  const getSelectedCount = () => {
+    return Object.keys(selectedItems).reduce(
+      (count, testRequestId) =>
+        count + Object.keys(selectedItems[testRequestId]?.tests ?? {}).length,
+      0
+    );
   };
 
   if (isLoading && !loaded) {
@@ -377,28 +532,81 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
+                    width: "100%",
+                    flexWrap: "nowrap",
                   }}
                 >
-                  <TableToolbarSearch
-                    placeholder={t(
-                      "laboratoryFilterWorksheets",
-                      "Filter Requests..."
-                    )}
-                    persistent
-                    value={searchInput}
-                    onChange={(e) => handleSearch(e.target.value)}
-                  />
-                  <FilterLaboratoryTests
-                    maxActivatedDate={maxActivatedDate}
-                    minActivatedDate={minActivatedDate}
-                    diagnosticCenterUuid={itemLocation}
-                    onMaxActivatedDateChanged={setMaxActivatedDate}
-                    onDiagnosticCenterChanged={setItemLocation}
-                    onTestChanged={setTestConcept}
-                    enableFocus={true}
-                    focus={allTests}
-                    onFocusChanged={setAllTests}
-                  />
+                  <div
+                    style={{
+                      width: "50%",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <TableToolbarSearch
+                      placeholder={t("laboratoryFilterWorksheets", "Filter...")}
+                      persistent
+                      value={searchInput}
+                      onChange={(e) => handleSearch(e.target.value)}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: "25%",
+                      flexShrink: 0,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FilterLaboratoryTests
+                      maxActivatedDate={maxActivatedDate}
+                      minActivatedDate={minActivatedDate}
+                      diagnosticCenterUuid={itemLocation}
+                      onMaxActivatedDateChanged={setMaxActivatedDate}
+                      onDiagnosticCenterChanged={setItemLocation}
+                      onTestChanged={setTestConcept}
+                      enableFocus={true}
+                      focus={allTests}
+                      onFocusChanged={setAllTests}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: "25%",
+                      flexShrink: 0,
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <SyncControls
+                      syncView={syncView}
+                      onToggleChange={handleToggleChange}
+                      selectedCount={getSelectedCount()}
+                      isSyncingAll={isSyncingAllTestOrders}
+                      isSyncingSelected={isSyncingSelectedTestOrders}
+                      isRequestingAll={isRequestingAllResults}
+                      isRequestingSelected={isRequestingSelectedResults}
+                      onSyncAll={handleSyncAllTestOrders}
+                      onSyncSelected={() =>
+                        handleSyncSelectedTestOrders(
+                          Object.keys(selectedItems).flatMap((testRequestId) =>
+                            Object.keys(
+                              selectedItems[testRequestId]?.tests ?? {}
+                            )
+                          )
+                        )
+                      }
+                      onRequestAll={handleRequestAllResults}
+                      onRequestSelected={() =>
+                        handleRequestSelectedResults(
+                          Object.keys(selectedItems).flatMap((testRequestId) =>
+                            Object.keys(
+                              selectedItems[testRequestId]?.tests ?? {}
+                            )
+                          )
+                        )
+                      }
+                    />
+                  </div>
                 </TableToolbarContent>
               </TableToolbar>
               <Table
@@ -471,6 +679,7 @@ const TestRequestReferredList: React.FC<TestRequestReferredListProps> = () => {
                                 testRequest={items.find(
                                   (p) => p.uuid == row.id
                                 )}
+                                enableSelection={true}
                               />
                               <>{row.cells[row.cells.length - 2].value}</>
                               {testRequest?.samples?.length > 0 && (

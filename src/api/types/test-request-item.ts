@@ -68,6 +68,7 @@ export interface TestRequestItem {
   testRequestItemSampleUuid?: string | null | undefined;
   testResult?: TestResult;
   testConcept?: Concept;
+  syncTask?: string | null;
 }
 
 export const ReferralOutOriginLab = "Laboratory";
@@ -135,3 +136,17 @@ export const TestRequestItemMatchOptions = [
 ] as const;
 export type TestRequestItemMatchOptionType =
   (typeof TestRequestItemMatchOptions)[number];
+
+export const SyncStatusNotSynced = "NOT_SYNCED";
+export const SyncStatusSyncing = "SYNCING";
+export const SyncStatusSynced = "SYNCED";
+export const SyncStatusFailed = "FAILED";
+export const SyncStatuses = [
+  SyncStatusNotSynced,
+  SyncStatusSyncing,
+  SyncStatusSynced,
+  SyncStatusFailed,
+] as const;
+export type SyncStatusType = (typeof SyncStatuses)[number];
+
+export type SyncViewType = "NOT_SYNCED" | "SYNCED";
