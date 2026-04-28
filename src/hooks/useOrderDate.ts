@@ -10,19 +10,28 @@ export const useOrderDate = () => {
     // Ensure we have a valid date string in YYYY-MM-DD format
     if (initialDate && typeof initialDate === "string") {
       // Validate it's a proper date string
-      if (/^\d{4}-\d{2}-\d{2}$/.test(initialDate) && dayjs(initialDate).isValid()) {
+      if (
+        /^\d{4}-\d{2}-\d{2}$/.test(initialDate) &&
+        dayjs(initialDate).isValid()
+      ) {
         return initialDate;
       }
     }
 
     // Fallback to initial state if store value is invalid
     const fallbackDate = initialState?.ordersDate;
-    if (fallbackDate && typeof fallbackDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(fallbackDate)) {
+    if (
+      fallbackDate &&
+      typeof fallbackDate === "string" &&
+      /^\d{4}-\d{2}-\d{2}$/.test(fallbackDate)
+    ) {
       return fallbackDate;
     }
 
     // Ultimate fallback: 7 days ago
-    return dayjs(new Date().setHours(0, 0, 0, 0) - 7 * 86400000).format("YYYY-MM-DD");
+    return dayjs(new Date().setHours(0, 0, 0, 0) - 7 * 86400000).format(
+      "YYYY-MM-DD"
+    );
   });
 
   useEffect(() => {
