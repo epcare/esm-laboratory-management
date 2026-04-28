@@ -1,0 +1,232 @@
+.syncControlsContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.toggleSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.toggleLabel {
+  font-size: 0.75rem;
+  color: #525252;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.buttonSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonSet {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.button {
+  flex: 1;
+}
+
+// ==================================================
+// COMPREHENSIVE TABLETOOLBAR LAYOUT OPTIMIZATION
+// ==================================================
+
+// Main toolbar container - controls overall layout
+:global(.cds--data-table-content) {
+  // Ensure the toolbar can use full width
+  width: 100%;
+}
+
+:global(.cds--table-toolbar) {
+  // Remove default padding to maximize space
+  padding: 0;
+
+  :global(.cds--table-toolbar-content) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    height: 3rem;
+    min-height: 3rem;
+    flex-wrap: nowrap;
+  }
+}
+
+// Compact search - takes fixed 25% width
+:global(.cds--toolbar-search-container-persistent) {
+  opacity: 1;
+  height: 2.5rem;
+  width: 18%;  // Reduced from 30%
+  max-width: 25%;
+  position: relative;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+
+  :global(.cds--search-input) {
+    height: 2.5rem;
+  }
+
+  :global(.cds--search-close) {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Compact form items in FilterLaboratoryTests
+:global(.cds--form-item) {
+  margin: 0 0.25rem;
+  flex-shrink: 0;
+
+  &.spacing {
+    margin: 0 0.25rem;
+  }
+}
+
+// Compact selects
+:global(.cds--select) {
+  :global(.cds--select-input--sm:disabled) {
+    height: 2.5rem;
+  }
+
+  :global(.cds--select-input__wrapper) {
+    height: 2.5rem;
+  }
+
+  :global(.cds--select-input) {
+    height: 2.5rem;
+    padding-right: 2rem;
+  }
+}
+
+// Compact date picker
+:global(.cds--date-picker) {
+  :global(.cds--date-picker__input) {
+    height: 2.5rem;
+  }
+
+  :global(.cds--date-picker-container) {
+    height: 2.5rem;
+  }
+}
+
+// Compact toggle
+:global(.cds--toggle) {
+  :global(.cds--toggle__label-text) {
+    margin: 0;
+    font-size: 0.7rem;
+  }
+
+  :global(.cds--toggle__appearance) {
+    width: 2.25rem;
+    height: 1.25rem;
+  }
+}
+
+// Make buttons ultra-compact
+:global(.cds--btn.cds--btn--sm) {
+  padding: 0.25rem 0.625rem;
+  height: 2rem;
+  min-height: 2rem;
+  font-size: 0.7rem;
+
+  :global(.cds--btn__text) {
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+}
+
+// ButtonSet should have no gap
+:global(.cds--btn-set) {
+  gap: 0.25rem;
+}
+
+// Ensure SyncControls gets remaining space but doesn't force wrapping
+:global(.cds--table-toolbar-content) {
+  > * {
+    flex-shrink: 0;
+  }
+
+  .syncControlsContainer {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  // Make FilterLaboratoryTests more compact
+  > :nth-child(2) {
+    flex-shrink: 1;
+    min-width: fit-content;
+    max-width: fit-content;
+  }
+}
+
+// Dropdown menus should be wider for readability
+:global(.cds--list-box) {
+  width: 20rem;
+  max-width: 20rem;
+
+  :global(.cds--list-box__menu-item) {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+// Remove unnecessary margins
+:global(.cds--date-picker-picker) {
+  margin: 0;
+}
+
+:global(.cds--date-picker-input) {
+  margin: 0;
+}
+
+// Fix for SyncControls being covered - ensure toolbar overflow is visible
+:global(.cds--data-table-content) {
+  overflow-x: auto;
+}
+
+:global(.cds--table-toolbar) {
+  overflow: visible;
+
+  :global(.cds--table-toolbar-content) {
+    overflow: visible;
+  }
+}
+
+// Reduce search to 18% and make filters more compact
+:global(.cds--toolbar-search-container-persistent) {
+  width: 18%;
+  max-width: 18%;
+}
+
+// Ensure filters don't take too much space
+:global(.cds--form-item) {
+  max-width: fit-content;
+}
+
+// Ensure SyncControls is fully visible
+:global(.cds--table-toolbar-content) {
+  > :nth-child(2) {
+    flex: 0 0 auto;
+    max-width: 45%;
+  }
+
+  .syncControlsContainer {
+    min-width: 25rem;
+    overflow: visible;
+  }
+}
