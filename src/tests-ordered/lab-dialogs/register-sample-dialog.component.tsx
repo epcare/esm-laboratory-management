@@ -116,10 +116,15 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
   const handleSave = async (item: SampleFormData) => {
     try {
       // pick lab test
+      // Auto-populate providedRef with accessionNumber if referredOut and not provided
+      const providedRef = item.referredOut && !item.providedRef
+        ? item.accessionNumber
+        : item.providedRef;
+
       let body = {
         sampleTypeUuid: item.sampleTypeUuid,
         accessionNumber: item.accessionNumber,
-        providedRef: item.referredOut ? item.providedRef : undefined,
+        providedRef: item.referredOut ? providedRef : undefined,
         tests: item.tests,
         containerTypeUuid: item.containerTypeUuid,
         containerCount:
@@ -377,7 +382,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
               <div className={styles.sectionField}>
                 <div className={styles.sectionRow}>
                   <div className={styles.sectionTitle}>
-                    {t("laboratoryAdditionalReference", "Additional Reference")}
+                    {t("laboratoryAdditionalReference", "Barcode/Reference Code")}
                   </div>
                   <div className={styles.sectionField}>
                     <div className={styles.sectionRow}>

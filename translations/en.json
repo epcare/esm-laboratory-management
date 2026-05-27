@@ -48,5 +48,6 @@
   "TestRequestItemMatchWorksheet" : "Worksheet",
   "TestRequestItemMatchWorksheetNoResults" : "Worksheet & No Results",
   "TestRequestItemMatchWorksheetResults" : "Worksheet & Results",
-  "TestRequestItemMatchNoWorksheetResults" : "No Worksheet & Results"
+  "TestRequestItemMatchNoWorksheetResults" : "No Worksheet & Results",
+  "laboratoryAdditionalReference": "Barcode/Reference Code"
 }
