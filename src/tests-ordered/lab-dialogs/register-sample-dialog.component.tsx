@@ -8,6 +8,7 @@ import {
   Checkbox,
   InlineLoading,
   Tag,
+  TextInput,
 } from "@carbon/react";
 import { useTranslation } from "react-i18next";
 import {
@@ -402,30 +403,51 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                         maxLength={10}
                         size={"md"}
                         value={`${sample?.providedRef ?? ""}`}
-                        labelText=""
+                        labelText={t(
+                          "laboratorySampleProviderReference",
+                          "Reference"
+                        )}
                         invalid={!!errors.providedRef}
                         invalidText={
                           errors.providedRef && errors?.providedRef?.message
                         }
                       />
-                      <ControlledTextInput
-                        id="id-confirmProvidedRef"
+                      <Controller
                         name="confirmProvidedRef"
                         control={control}
-                        controllerName="confirmProvidedRef"
-                        placeholder={t(
-                          "laboratorySampleConfirmProviderReference",
-                          "Confirm Reference"
+                        render={({ field: { onChange, value, ref } }) => (
+                          <TextInput
+                            id="id-confirmProvidedRef"
+                            ref={ref}
+                            value={value}
+                            onChange={(e) => onChange(e.target.value)}
+                            placeholder={t(
+                              "laboratorySampleConfirmProviderReference",
+                              "Confirm Reference"
+                            )}
+                            labelText={t(
+                              "laboratorySampleConfirmProviderReference",
+                              "Confirm Reference"
+                            )}
+                            size="md"
+                            maxLength={10}
+                            invalid={!!errors.confirmProvidedRef}
+                            invalidText={
+                              errors.confirmProvidedRef &&
+                              errors?.confirmProvidedRef?.message
+                            }
+                            onFocus={() => {
+                              const currentProvidedRef = watch("providedRef");
+                              if (!currentProvidedRef) {
+                                const accessionNumber = watch("accessionNumber");
+                                if (accessionNumber) {
+                                  setValue("providedRef", accessionNumber);
+                                  setValue("confirmProvidedRef", accessionNumber);
+                                }
+                              }
+                            }
+                          />
                         )}
-                        maxLength={10}
-                        size={"md"}
-                        value={`${sample?.providedRef ?? ""}`}
-                        labelText=""
-                        invalid={!!errors.confirmProvidedRef}
-                        invalidText={
-                          errors.confirmProvidedRef &&
-                          errors?.confirmProvidedRef?.message
-                        }
                       />
                     </div>
                   </div>
