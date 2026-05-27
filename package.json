@@ -1,6 +1,6 @@
 {
     "name": "@epcare/esm-laboratory-management-app",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "license": "MPL-2.0",
     "description": "Laboratory Management microfrontend",
     "browser": "dist/esm-laboratory-management-app.js",
