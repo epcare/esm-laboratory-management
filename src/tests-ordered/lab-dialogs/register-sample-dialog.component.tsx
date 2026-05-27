@@ -125,6 +125,15 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
     }
   };
 
+  const handleConfirmBarcodeChange = (value: string) => {
+    const currentProvidedRef = watch("providedRef");
+    const currentAccessionNumber = watch("accessionNumber");
+    // If confirm matches providedRef and accessionNumber is empty, populate Sample ID
+    if (value === currentProvidedRef && !currentAccessionNumber) {
+      setValue("accessionNumber", value);
+    }
+  };
+
   const handleSave = async (item: SampleFormData) => {
     try {
       // pick lab test
@@ -431,7 +440,10 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                             id="id-confirmProvidedRef"
                             ref={ref}
                             value={value}
-                            onChange={(e) => onChange(e.target.value)}
+                            onChange={(e) => {
+                              onChange(e.target.value);
+                              handleConfirmBarcodeChange(e.target.value);
+                            }}
                             placeholder={t(
                               "laboratorySampleConfirmProviderReference",
                               "Confirm Reference"
