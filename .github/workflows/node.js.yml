@@ -97,10 +97,11 @@ jobs:
       - run: git config user.email "<>" && git config user.name "EMR CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
+      - name: Configure npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > .npmrc
+
       - name: Pre-release
         run: npm publish --access public --tag next
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -145,7 +146,8 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
 
+      - name: Configure npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > .npmrc
+
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
