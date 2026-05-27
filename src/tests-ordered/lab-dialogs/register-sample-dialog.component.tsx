@@ -114,6 +114,17 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
   const storageUuid = watch("storageUuid", null);
   //const selectedTests = watch("tests", (sample?.tests as Array<TestRequestItem>)?.map((p) => p.uuid) ?? []);
 
+  const handleConfirmBarcodeFocus = () => {
+    const currentProvidedRef = watch("providedRef");
+    if (!currentProvidedRef) {
+      const accessionNumber = watch("accessionNumber");
+      if (accessionNumber) {
+        setValue("providedRef", accessionNumber);
+        setValue("confirmProvidedRef", accessionNumber);
+      }
+    }
+  };
+
   const handleSave = async (item: SampleFormData) => {
     try {
       // pick lab test
@@ -436,16 +447,7 @@ const RegisterSampleDialog: React.FC<RegisterSampleDialogProps> = ({
                               errors.confirmProvidedRef &&
                               errors?.confirmProvidedRef?.message
                             }
-                            onFocus={() => {
-                              const currentProvidedRef = watch("providedRef");
-                              if (!currentProvidedRef) {
-                                const accessionNumber = watch("accessionNumber");
-                                if (accessionNumber) {
-                                  setValue("providedRef", accessionNumber);
-                                  setValue("confirmProvidedRef", accessionNumber);
-                                }
-                              }
-                            }
+                            onFocus={handleConfirmBarcodeFocus}
                           />
                         )}
                       />
