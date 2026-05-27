@@ -89,7 +89,10 @@ const TestRequestReferredItemList: React.FC<
             if (value) {
               newSelectedItems[testRequestId].allTests = true;
               newSelectedItems[testRequestId].tests = rows?.reduce((x, y) => {
-                x[y.id] = true;
+                const entry = testRequest?.tests?.find((p) => p.uuid == y.id);
+                if (entry?.orderUuid) {
+                  x[entry.orderUuid] = true;
+                }
                 return x;
               }, {} as { [key: string]: boolean });
             } else {
@@ -106,6 +109,10 @@ const TestRequestReferredItemList: React.FC<
             event: React.ChangeEvent<HTMLInputElement>,
             testRequestItemId: string
           ) => {
+            const entry = testRequest?.tests?.find(
+              (p) => p.uuid == testRequestItemId
+            );
+            const orderUuid = entry?.orderUuid ?? testRequestItemId;
             const newSelectedItems = { ...selectedItems };
             if (!newSelectedItems[testRequestId]) {
               newSelectedItems[testRequestId] = { tests: {}, allTests: false };
@@ -114,13 +121,11 @@ const TestRequestReferredItemList: React.FC<
               newSelectedItems[testRequestId].allTests =
                 Object.keys(newSelectedItems[testRequestId].tests).length + 1 ==
                 tests.length;
-              newSelectedItems[testRequestId].tests[testRequestItemId] = true;
+              newSelectedItems[testRequestId].tests[orderUuid] = true;
             } else {
               newSelectedItems[testRequestId].allTests = false;
-              if (newSelectedItems[testRequestId]["tests"][testRequestItemId]) {
-                delete newSelectedItems[testRequestId]["tests"][
-                  testRequestItemId
-                ];
+              if (newSelectedItems[testRequestId]["tests"][orderUuid]) {
+                delete newSelectedItems[testRequestId]["tests"][orderUuid];
               }
             }
             onSelectionChange(newSelectedItems);
@@ -175,6 +180,7 @@ const TestRequestReferredItemList: React.FC<
                     const entry = testRequest?.tests?.find(
                       (p) => p.uuid == row.id
                     );
+                    const orderUuid = entry?.orderUuid ?? row.id;
                     return (
                       <React.Fragment key={row.id}>
                         <TableExpandRow
@@ -199,7 +205,7 @@ const TestRequestReferredItemList: React.FC<
                                 row,
                               })}
                               checked={Boolean(
-                                selectedItems[testRequestId]?.tests?.[row.id]
+                                selectedItems[testRequestId]?.tests?.[orderUuid]
                               )}
                               onChange={(v, n, e) =>
                                 onTestRequestSelectionChange(v, n, e, row.id)
