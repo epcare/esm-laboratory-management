@@ -98,9 +98,9 @@ jobs:
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
       - name: Pre-release
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > .npmrc
-          yarn npm publish --access public --tag next
+        run: npm publish --access public --tag next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -145,7 +145,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
 
-      - run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > .npmrc
-          yarn npm publish
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
