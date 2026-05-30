@@ -40,7 +40,7 @@ import {
 } from "../config/privileges";
 import WorkListHome from "../work-list/work-list-home.component";
 import TestRequestRejectedList from "../reject-order/test-request-rejected-list.component";
-import TestRequestReferredList from "../referred-orders/test-request-referred-list.component";
+import ReferredTabWrapper from "../referred-orders/referred-tab-wrapper.component";
 import TestResultsClearanceList from "../review-list/results-clearance-list.component";
 import { TestRequestItemStatusCancelled } from "../api/types/test-request-item";
 import TestRequestCompleted from "../completed-list/test-request-completed.component";
@@ -222,7 +222,7 @@ const LaboratoryOrdersTabs: React.FC = () => {
               url: URL_LAB_REQUESTS_REFERRED_APPROVAL,
               description: t("referredTests", "Referred Tests"),
               disabled: false,
-              element: <TestRequestReferredList />,
+              element: <ReferredTabWrapper />,
             },
           ]
         : []),

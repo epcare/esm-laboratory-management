@@ -161,6 +161,13 @@ export const configSchema = {
     _description: "Worksheet must have single test type to import results.",
     _globalProperty: "labmanagement.requireSingleTestTypeForResultsImport",
   },
+  laboratoryReferralViewImplementation: {
+    _type: Type.String,
+    _default: "simple",
+    _description:
+      "Determines which referral view implementation to use in the laboratory module. 'simple' uses the UgandaEMR-style sync with better tracking of synced tests. 'advanced' uses the original esm-laboratory-management implementation.",
+    _globalProperty: "labmanagement.referralViewImplementation",
+  },
 };
 
 export type Config = {
@@ -186,4 +193,5 @@ export type Config = {
   laboratoryCloseAfterPrint: boolean;
   enableSendingLabTestsByEmail: boolean;
   laboratoryRequireSingleTestTypeForResultsImport: boolean;
+  laboratoryReferralViewImplementation: string;
 };
