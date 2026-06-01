@@ -131,24 +131,22 @@ export function useLazyGlobalProperty() {
  * @param propertyName - The global property name (e.g., "labmanagement.referralViewImplementation")
  * @returns The value of the global property, loading state, and error
  */
-export function useGlobalPropertyByName(
-  propertyName: string
-): { value: string | null; isLoading: boolean; error: Error | null } {
+export function useGlobalPropertyByName(propertyName: string): {
+  value: string | null;
+  isLoading: boolean;
+  error: Error | null;
+} {
   const apiUrl = `${restBaseUrl}/systemsetting?q=${propertyName}`;
   const { data, error, isLoading } = useSWR<
     {
       data: PageableResult<GlobalProperty>;
     },
     Error
-  >(
-    propertyName ? apiUrl : null,
-    customOpenMRSFetch,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      revalidateIfStale: false,
-    }
-  );
+  >(propertyName ? apiUrl : null, customOpenMRSFetch, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateIfStale: false,
+  });
 
   // Find the matching property (OpenMRS returns partial matches, so we need exact match)
   const matchingProperty = data?.data?.results?.find(

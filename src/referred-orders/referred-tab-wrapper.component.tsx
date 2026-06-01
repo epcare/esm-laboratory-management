@@ -50,21 +50,21 @@ const ReferredTabWrapper: React.FC = () => {
 
   // Show loading state while fetching global property
   if (isLoadingGlobal && !userPreference) {
-    return (
-      <InlineLoading />
-    );
+    return <InlineLoading />;
   }
 
   return (
     <div>
       {/* View toggle switch */}
-      <div style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        marginBottom: "1rem",
-        marginRight: "7%"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          marginBottom: "1rem",
+          marginRight: "7%",
+        }}
+      >
         <Toggle
           id="referral-view-toggle"
           labelA="Simple View"

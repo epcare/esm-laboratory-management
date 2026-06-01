@@ -425,7 +425,10 @@ const ReferredOrdersSync: React.FC = () => {
           <TableContainer className={styles.tableContainer}>
             <TableToolbar style={{ position: "static" }}>
               <TableToolbarContent>
-                <div className={styles.toolbarSearch} id={styles.referralSearch}>
+                <div
+                  className={styles.toolbarSearch}
+                  id={styles.referralSearch}
+                >
                   <TableToolbarSearch
                     expanded
                     value={searchQuery}
