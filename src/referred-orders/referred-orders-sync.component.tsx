@@ -40,9 +40,9 @@ import {
   extractErrorMessagesFromResponse,
   getStatusColor,
   handleMutate,
-  useOrderDate,
 } from "../utils/functions-uganda";
-import styles from "./referred-orders-uganda.scss";
+import { useOrderDate } from "../hooks/useOrderDate";
+import styles from "./referred-orders-sync.scss";
 import {
   syncAllTestOrderResultsUganda as getAllTestOrderResults,
   syncAllTestOrdersUganda as syncAllTestOrders,
@@ -52,7 +52,7 @@ import {
 import {
   useGetUgandaReferredOrders,
   UgandaReferredOrderResult,
-} from "../api/referred-orders-uganda.resource";
+} from "../api/referred-orders-sync-api.resource";
 
 type SyncView = "NOT_SYNCED" | "SYNCED";
 
@@ -60,7 +60,7 @@ interface EditOrderProps {
   order: UgandaReferredOrderResult["order"];
 }
 
-const ReferredOrdersUganda: React.FC = () => {
+const ReferredOrdersSync: React.FC = () => {
   const { t } = useTranslation();
 
   const [syncView, setSyncView] = useState<SyncView>("NOT_SYNCED");
@@ -84,10 +84,75 @@ const ReferredOrdersUganda: React.FC = () => {
 
   const { currentOrdersDate } = useOrderDate();
 
+  const currentApiStatus =
+    syncView === "NOT_SYNCED" ? "IN_PROGRESS" : "RECEIVED";
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { data: referredOrderList, isLoading } = useGetUgandaReferredOrders(
-    syncView === "NOT_SYNCED" ? "IN_PROGRESS" : "RECEIVED",
+    currentApiStatus,
     currentOrdersDate
   );
+
+  // Filter orders based on search query across all columns
+  const filteredOrders = useMemo(() => {
+    if (!searchQuery || searchQuery.trim() === "") {
+      return referredOrderList;
+    }
+
+    const lowerQuery = searchQuery.toLowerCase();
+
+    return referredOrderList.filter((entry) => {
+      // Search in date
+      const date = formatDate(parseDate(entry?.order?.dateActivated), {
+        mode: "standard",
+        time: true,
+      });
+      if (date?.toLowerCase().includes(lowerQuery)) return true;
+
+      // Search in order number
+      if (entry?.order?.orderNumber?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      // Search in patient name/display
+      if (entry?.order?.patient?.display?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      // Search in ART number
+      const artNumber = entry?.order?.patient?.identifiers
+        ?.find(
+          (item) =>
+            item?.identifierType?.uuid ===
+            "e1731641-30ab-102d-86b0-7a5022ba4115"
+        )
+        ?.display.split("=")[1]
+        ?.trim()
+        ?.toLowerCase();
+      if (artNumber?.includes(lowerQuery)) return true;
+
+      // Search in accession number
+      if (entry?.order?.accessionNumber?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      // Search in test name
+      if (entry?.order?.concept?.display?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      // Search in status
+      if (entry?.order?.fulfillerStatus?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      // Search in orderer
+      if (entry?.order?.orderer?.display?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      // Search in sync task status/message
+      if (entry?.syncTask?.status?.toLowerCase().includes(lowerQuery))
+        return true;
+
+      return false;
+    });
+  }, [referredOrderList, searchQuery]);
 
   const pageSizes = [10, 20, 30, 40, 50];
 
@@ -97,7 +162,7 @@ const ReferredOrdersUganda: React.FC = () => {
     goTo,
     results: paginatedReferredOrderEntries,
     currentPage,
-  } = usePagination(referredOrderList, currentPageSize);
+  } = usePagination(filteredOrders, currentPageSize);
 
   const EditOrder: React.FC<EditOrderProps> = ({ order }) => {
     const handleLaunchWorkspace = useCallback(() => {
@@ -360,11 +425,16 @@ const ReferredOrdersUganda: React.FC = () => {
           <TableContainer className={styles.tableContainer}>
             <TableToolbar style={{ position: "static" }}>
               <TableToolbarContent>
-                <Layer
-                  style={{
-                    margin: "5px",
-                  }}
-                >
+                <div className={styles.toolbarSearch} id={styles.referralSearch}>
+                  <TableToolbarSearch
+                    expanded
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t("searchThisList", "Search this list")}
+                    size="sm"
+                  />
+                </div>
+                <div className={styles.toolbarFilters}>
                   <Toggle
                     className={styles.toggle}
                     labelA="Not Synced"
@@ -373,116 +443,91 @@ const ReferredOrdersUganda: React.FC = () => {
                     toggled={syncView === "SYNCED"}
                     onToggle={handleToggleChange}
                   />
-                </Layer>
 
-                {/* selected implementation */}
-                {syncView === "NOT_SYNCED" && (
-                  <Layer
-                    style={{
-                      margin: "5px",
-                    }}
-                  >
-                    {isSyncingSelectedTestOrders ? (
-                      <InlineLoading
-                        description={t("syncing", "Syncing...")}
-                        status="active"
-                      />
-                    ) : (
-                      <Button
-                        size="sm"
-                        className={styles.button}
-                        onClick={() =>
-                          handleSyncSelectedTestOrders(selectedRows)
-                        }
-                      >
-                        {t("syncSelected", "Sync Selected Orders")}
-                      </Button>
-                    )}
-                  </Layer>
-                )}
+                  {/* selected implementation */}
+                  {syncView === "NOT_SYNCED" && (
+                    <>
+                      {isSyncingSelectedTestOrders ? (
+                        <InlineLoading
+                          description={t("syncing", "Syncing...")}
+                          status="active"
+                        />
+                      ) : (
+                        <Button
+                          size="sm"
+                          className={styles.button}
+                          onClick={() =>
+                            handleSyncSelectedTestOrders(selectedRows)
+                          }
+                        >
+                          {t("syncSelected", "Sync Selected Orders")}
+                        </Button>
+                      )}
+                    </>
+                  )}
 
-                {syncView === "SYNCED" && (
-                  <Layer
-                    style={{
-                      margin: "5px",
-                    }}
-                  >
-                    {isSyncingSelectedTestOrderResults ? (
-                      <InlineLoading
-                        description={t("syncing", "Syncing...")}
-                        status="active"
-                      />
-                    ) : (
-                      <Button
-                        size="sm"
-                        className={styles.button}
-                        onClick={() =>
-                          handleSyncSelectedTestOrderResults(selectedRows)
-                        }
-                      >
-                        {t("resultsForSelected", "Get Results For Selected")}
-                      </Button>
-                    )}
-                  </Layer>
-                )}
-                {/* all implementation */}
+                  {syncView === "SYNCED" && (
+                    <>
+                      {isSyncingSelectedTestOrderResults ? (
+                        <InlineLoading
+                          description={t("syncing", "Syncing...")}
+                          status="active"
+                        />
+                      ) : (
+                        <Button
+                          size="sm"
+                          className={styles.button}
+                          onClick={() =>
+                            handleSyncSelectedTestOrderResults(selectedRows)
+                          }
+                        >
+                          {t("resultsForSelected", "Get Results For Selected")}
+                        </Button>
+                      )}
+                    </>
+                  )}
+                  {/* all implementation */}
 
-                {syncView === "SYNCED" && (
-                  <Layer
-                    style={{
-                      margin: "5px",
-                    }}
-                  >
-                    {isSyncingAllTestOrderResults ? (
-                      <InlineLoading
-                        description={t("syncing", "Syncing...")}
-                        status="active"
-                      />
-                    ) : (
-                      <Button
-                        size="sm"
-                        className={styles.button}
-                        onClick={() => {
-                          handleSyncAllTestOrderResults();
-                        }}
-                      >
-                        {t("syncAllResults", "Get All Results")}
-                      </Button>
-                    )}
-                  </Layer>
-                )}
+                  {syncView === "SYNCED" && (
+                    <>
+                      {isSyncingAllTestOrderResults ? (
+                        <InlineLoading
+                          description={t("syncing", "Syncing...")}
+                          status="active"
+                        />
+                      ) : (
+                        <Button
+                          size="sm"
+                          className={styles.button}
+                          onClick={() => {
+                            handleSyncAllTestOrderResults();
+                          }}
+                        >
+                          {t("syncAllResults", "Get All Results")}
+                        </Button>
+                      )}
+                    </>
+                  )}
 
-                {syncView === "NOT_SYNCED" && (
-                  <Layer
-                    style={{
-                      margin: "5px",
-                    }}
-                  >
-                    {isSyncingAllTestOrders ? (
-                      <InlineLoading
-                        description={t("syncing", "Syncing...")}
-                        status="active"
-                      />
-                    ) : (
-                      <Button
-                        size="sm"
-                        className={styles.button}
-                        onClick={() => handleSyncAllTestOrders()}
-                      >
-                        {t("syncAll", "Sync All Orders")}
-                      </Button>
-                    )}
-                  </Layer>
-                )}
-
-                <Layer style={{ margin: "5px" }}>
-                  <TableToolbarSearch
-                    expanded
-                    onChange={onInputChange}
-                    placeholder={t("searchThisList", "Search this list")}
-                    size="sm"
-                  />
-                </Layer>
+                  {syncView === "NOT_SYNCED" && (
+                    <>
+                      {isSyncingAllTestOrders ? (
+                        <InlineLoading
+                          description={t("syncing", "Syncing...")}
+                          status="active"
+                        />
+                      ) : (
+                        <Button
+                          size="sm"
+                          className={styles.button}
+                          onClick={() => handleSyncAllTestOrders()}
+                        >
+                          {t("syncAll", "Sync All Orders")}
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </div>
               </TableToolbarContent>
             </TableToolbar>
 
@@ -535,10 +580,15 @@ const ReferredOrdersUganda: React.FC = () => {
                 <Tile className={styles.tile}>
                   <div className={styles.tileContent}>
                     <p className={styles.content}>
-                      {t(
-                        "noWorklistsToDisplay",
-                        "No worklists orders to display"
-                      )}
+                      {searchQuery
+                        ? t(
+                            "noSearchResults",
+                            "No results found for your search"
+                          )
+                        : t(
+                            "noWorklistsToDisplay",
+                            "No worklists orders to display"
+                          )}
                     </p>
                   </div>
                 </Tile>
@@ -552,7 +602,7 @@ const ReferredOrdersUganda: React.FC = () => {
               page={currentPage}
               pageSize={currentPageSize}
               pageSizes={pageSizes}
-              totalItems={referredOrderList?.length}
+              totalItems={filteredOrders?.length}
               className={styles.pagination}
               onChange={({ pageSize, page }) => {
                 if (pageSize !== currentPageSize) {
@@ -570,4 +620,4 @@ const ReferredOrdersUganda: React.FC = () => {
   }
 };
 
-export default ReferredOrdersUganda;
+export default ReferredOrdersSync;

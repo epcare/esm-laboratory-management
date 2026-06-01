@@ -1,6 +1,5 @@
 import React from "react";
 import { ConfigurableLink } from "@openmrs/esm-framework";
-import { BrowserRouter, useLocation } from "react-router-dom";
 import { MODULE_BASE_URL } from "../config/urls";
 
 export interface DashboardLinkConfig {
@@ -15,7 +14,6 @@ function DashboardExtension({
   dashboardLinkConfig: DashboardLinkConfig;
 }) {
   const { name, title } = dashboardLinkConfig;
-  const location = useLocation();
 
   return (
     <ConfigurableLink to={MODULE_BASE_URL} className={`cds--side-nav__link`}>
@@ -26,8 +24,4 @@ function DashboardExtension({
 
 export const createHomeDashboardLink =
   (dashboardLinkConfig: DashboardLinkConfig) => () =>
-    (
-      <BrowserRouter>
-        <DashboardExtension dashboardLinkConfig={dashboardLinkConfig} />
-      </BrowserRouter>
-    );
+    <DashboardExtension dashboardLinkConfig={dashboardLinkConfig} />;

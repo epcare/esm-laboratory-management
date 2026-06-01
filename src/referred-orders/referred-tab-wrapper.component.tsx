@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useConfig } from "@openmrs/esm-framework";
 import TestRequestReferredList from "./test-request-referred-list.component";
-import ReferredOrdersUganda from "./referred-orders-uganda.component";
+import ReferredOrdersSync from "./referred-orders-sync.component";
 
 /**
  * Wrapper component that determines which referral implementation to use
@@ -16,7 +16,7 @@ const ReferredTabWrapper: React.FC = () => {
 
   // Get the referral view implementation from config, default to 'simple'
   const referralViewImplementation = useMemo(() => {
-    return (config as any)?.referralViewImplementation ?? "simple";
+    return (config as any)?.laboratoryReferralViewImplementation ?? "simple";
   }, [config]);
 
   // Render the appropriate component based on the configuration
@@ -25,7 +25,7 @@ const ReferredTabWrapper: React.FC = () => {
   }
 
   // Default to simple implementation (UgandaEMR-style)
-  return <ReferredOrdersUganda />;
+  return <ReferredOrdersSync />;
 };
 
 export default ReferredTabWrapper;

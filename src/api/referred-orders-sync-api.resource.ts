@@ -1,6 +1,6 @@
 import { openmrsFetch, restBaseUrl } from "@openmrs/esm-framework";
 import useSWR, { mutate } from "swr";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 // Types for the ugandaemr-style referred orders response
 export interface UgandaReferredOrderResult {
@@ -68,15 +68,39 @@ export function useGetUgandaReferredOrders(
 ) {
   const customRepresentation =
     "v=custom:(order:(uuid,orderNumber,accessionNumber,instructions,specimenSource:(uuid,display),careSetting:(uuid),encounter:(uuid,obs:(order:(uuid,display,patient:(uuid,display)))),fulfillerComment,orderType:(display),concept:(display,uuid),action,dateStopped,fulfillerStatus,dateActivated,orderer:(uuid,display),urgency,patient:(uuid,names:(display),display,gender,birthdate,identifiers:(voided,preferred,uuid,display,identifierType:(uuid)))),syncTask)";
-  let apiUrl = `${restBaseUrl}/referredorders?fulfillerStatus=${fulfillerStatus}&${customRepresentation}`;
-  if (dateTo) {
-    apiUrl += `&activatedOnOrAfterDate=${dateTo}`;
-  }
+
+  // Build API URL with proper query parameter handling
+  const apiUrl = useMemo(() => {
+    let url = `${restBaseUrl}/referredorders?fulfillerStatus=${fulfillerStatus}&${customRepresentation}`;
+    if (dateTo) {
+      url += `&activatedOnOrAfterDate=${dateTo}`;
+    }
+    return url;
+  }, [fulfillerStatus, dateTo, customRepresentation]);
+
+  // Use SWR with a unique key function to ensure proper cache invalidation
+  const swrKey = useMemo(
+    () => ({
+      url: apiUrl,
+      status: fulfillerStatus, // Add status as part of the key for proper cache differentiation
+    }),
+    [apiUrl, fulfillerStatus]
+  );
+
+  const fetcher = useCallback(() => openmrsFetch(swrKey.url), [swrKey.url]);
 
   const { data, error, isLoading } = useSWR<
     { data: { results: Array<UgandaReferredOrderResult> } },
     Error
-  >(apiUrl, openmrsFetch);
+  >(swrKey, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    shouldRetryOnError: false,
+    dedupingInterval: 0,
+    revalidateOnMount: true,
+    refreshInterval: 0,
+    keepPreviousData: false,
+  });
 
   const mutateUgandaReferredOrders = useCallback(
     () =>
