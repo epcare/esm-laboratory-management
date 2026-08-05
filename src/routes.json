@@ -54,6 +54,15 @@
             "component": "laboratoryOrderComponent"
         },
         {
+            "name": "patient-laboratory-referral-workspace",
+            "component": "laboratoryReferralWorkspace",
+            "meta": {
+                "title": "Laboratory Referral Form",
+                "type": "form",
+                "width": "narrow"
+            }
+        },
+        {
             "name": "results-summary",
             "component": "resultsSummaryWorkSpace"
         },
