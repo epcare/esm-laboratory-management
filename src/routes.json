@@ -10,6 +10,14 @@
             "route": "laboratory"
         }
     ],
+    "workspaces": [
+        {
+            "name": "patient-laboratory-referral-workspace",
+            "title": "Laboratory Referral Form",
+            "component": "laboratoryReferralWorkspace",
+            "type": "form"
+        }
+    ],
     "extensions": [
         {
             "name": "laboratory-dashboard",
