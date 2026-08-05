@@ -87,7 +87,9 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Version
-        run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
+        # run_number is reused when a failed workflow is rerun, while run_attempt
+        # increments. Including both keeps every npm version immutable and unique.
+        run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}.${{ github.run_attempt }}"
 
       - name: Build
         run: yarn turbo build --color --concurrency=5
