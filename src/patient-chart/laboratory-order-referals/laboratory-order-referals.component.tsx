@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./laboratory-order-referals.scss";
-import { ErrorState, showModal, launchWorkspace } from "@openmrs/esm-framework";
-import { mutate } from "swr";
+import { ErrorState, showModal } from "@openmrs/esm-framework";
 import {
   DataTable,
   DataTableSkeleton,
@@ -41,6 +40,7 @@ import PrintTestRequestButton from "../../print/print-test-request-action-button
 import TestNameTag from "../../components/test-request/test-name-tag";
 import { URL_LAB_REQUESTS_ALL_ABS_REQUEST_NO } from "../../config/urls";
 import { ResourceRepresentation } from "../../api/resource-filter-criteria";
+import { useLaunchLabReferralWorkspace } from "../../hooks/useLaunchLabReferralWorkspace";
 
 interface LaboratoryOrderReferalResultsProps {
   patientUuid: string;
@@ -90,21 +90,7 @@ const LaboratoryOrderReferalResults: React.FC<
     setSearchTerm(searchText);
   }, []);
 
-  const launchLabRequestForm = () => {
-    launchWorkspace("patient-laboratory-referral-workspace", {
-      workspaceTitle: "Lab Request Form",
-      mutateForm: () => {
-        mutate((key) => true, undefined, {
-          revalidate: true,
-        });
-      },
-      /*formInfo: {
-        encounterUuid: "",
-        formUuid: "c6f3b5ad-b7eb-44ad-b212-fb26456e155b",
-      },*/
-      patientUuid: patientUuid,
-    });
-  };
+  const launchLabRequestForm = useLaunchLabReferralWorkspace(patientUuid);
 
   const EmailButtonAction: React.FC = () => {
     const launchSendEmailModal = useCallback(() => {
